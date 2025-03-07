@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ app.get('/', (req: Request, res: Response) => {
 
 // Use the user routes
 app.use('/users', userRoutes);
+
+// Mount authentication routes
+app.use('/auth', authRoutes);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
