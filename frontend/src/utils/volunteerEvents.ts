@@ -19,8 +19,27 @@ export interface VolunteerEvent {
   }>;
 }
 
-// Fetch all volunteer events (public)
-export const getVolunteerEvents = async (): Promise<VolunteerEvent[]> => {
-  const response = await API.get<VolunteerEvent[]>('/events');
+export const getVolunteerEvents = async (filters?: {
+  category?: string;
+  location?: string;
+  startDate?: string;
+  endDate?: string;
+}): Promise<VolunteerEvent[]> => {
+  let query = '';
+  if (filters) {
+    const queryParams = new URLSearchParams();
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value) {
+        queryParams.append(key, value);
+      }
+    });
+    query = `?${queryParams.toString()}`;
+  }
+  const response = await API.get<VolunteerEvent[]>(`/events${query}`);
+  return response.data;
+};
+
+export const joinVolunteerEvent = async (eventId: number): Promise<VolunteerEvent> => {
+  const response = await API.post<VolunteerEvent>(`/events/${eventId}/join`);
   return response.data;
 };
