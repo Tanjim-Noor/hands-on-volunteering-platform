@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
+import volunteerEventRoutes from './routes/volunteerEventRoutes';
 
 dotenv.config();
 
@@ -25,6 +26,9 @@ app.use('/users', userRoutes);
 
 // Mount authentication routes
 app.use('/auth', authRoutes);
+
+// Volunteer Event Route
+app.use('/events', volunteerEventRoutes);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));

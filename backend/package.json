@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "./src/index.ts",
   "scripts": {
-    "start": "npx nodemon"
+    "start": "npx nodemon",
+    "seed": "ts-node --transpile-only prisma/seed.ts"
   },
   "keywords": [],
   "author": "",

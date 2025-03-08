@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [showSuccess, setShowSuccess] = useState(!!location.state?.loginSuccess);
   
   return (
@@ -25,7 +26,10 @@ const Dashboard = () => {
           <div className="card">
             <h2 className="text-2xl font-semibold mb-4">Your Events</h2>
             <p className="mb-4">No upcoming events yet.</p>
-            <button className="btn btn-secondary">
+            <button 
+              className="btn btn-secondary" 
+              onClick={() => navigate('/events')}
+            >
               Find Events
             </button>
           </div>
@@ -36,7 +40,6 @@ const Dashboard = () => {
               Log Hours
             </button>
             <div className="mt-4 text-6xl">
-              {/* Example illustration icon */}
               <span role="img" aria-label="empty state">📭</span>
             </div>
           </div>

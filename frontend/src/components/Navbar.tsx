@@ -1,107 +1,135 @@
-import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const handleLogout = async () => {
     await logout();
-    navigate('/login');
-    setMobileMenuOpen(false);
   };
-
-  // Toggle mobile menu
-  const toggleMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
-
-  // Common navigation items
-  const navItems = (
-    <>
-      <NavLink
-        to="/"
-        className={({ isActive }) =>
-          isActive ? "underline text-white" : "text-gray-300 hover:text-white"
-        }
-        end
-      >
-        Home
-      </NavLink>
-      {isAuthenticated ? (
-        <>
-          <NavLink
-            to="/dashboard"
-            className={({ isActive }) =>
-              isActive ? "underline text-white" : "text-gray-300 hover:text-white"
-            }
-          >
-            Dashboard
-          </NavLink>
-          <button
-            onClick={handleLogout}
-            className="text-gray-300 hover:text-white focus:outline-none"
-          >
-            Logout
-          </button>
-        </>
-      ) : (
-        <>
-          <NavLink
-            to="/login"
-            className={({ isActive }) =>
-              isActive ? "underline text-white" : "text-gray-300 hover:text-white"
-            }
-          >
-            Login
-          </NavLink>
-          <NavLink
-            to="/register"
-            className={({ isActive }) =>
-              isActive ? "underline text-white" : "text-gray-300 hover:text-white"
-            }
-          >
-            Register
-          </NavLink>
-        </>
-      )}
-    </>
-  );
 
   return (
-    <header className="bg-gray-900 bg-opacity-90 shadow-lg">
-      <div className="container mx-auto flex justify-between items-center px-6 py-4">
-        <div className="text-2xl font-extrabold text-white drop-shadow-md">
-          <NavLink to="/">HandsOn</NavLink>
-        </div>
+    <nav className="bg-gray-800 text-white">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <Link to="/" className="text-xl font-bold">
+          HandsOn
+        </Link>
+
         {/* Desktop Menu */}
-        <nav className="hidden md:flex space-x-6 text-lg" aria-label="Main navigation">
-          {navItems}
-        </nav>
-        {/* Mobile Hamburger Button */}
-        <button
-          onClick={toggleMenu}
-          className="md:hidden text-gray-300 focus:outline-none"
-          aria-label="Toggle menu"
-          aria-expanded={mobileMenuOpen}
-        >
-          {/* Simple Hamburger icon */}
-          <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-              d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
+        <div className="hidden md:flex space-x-6">
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/events"
+            className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+          >
+            Events
+          </NavLink>
+          {isAuthenticated ? (
+            <>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+              >
+                Dashboard
+              </NavLink>
+              <button onClick={handleLogout} className="hover:text-blue-300">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+              >
+                Register
+              </NavLink>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Hamburger Menu */}
+        <div className="md:hidden">
+          <button onClick={toggleMenu}>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
       </div>
+
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <nav className="md:hidden px-6 pb-4 pt-2 space-y-2 text-lg" aria-label="Mobile navigation">
-          {navItems}
-        </nav>
+      {isMenuOpen && (
+        <div className="md:hidden bg-gray-700 px-2 pt-2 pb-4 space-y-1">
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/events"
+            className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Events
+          </NavLink>
+          {isAuthenticated ? (
+            <>
+              <NavLink
+                to="/dashboard"
+                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Dashboard
+              </NavLink>
+              <button onClick={handleLogout} className="block hover:text-blue-300 w-full text-left">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink
+                to="/login"
+                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Register
+              </NavLink>
+            </>
+          )}
+        </div>
       )}
-    </header>
+    </nav>
   );
 };
 
