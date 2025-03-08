@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import API from '../utils/api';
+import * as auth from '../utils/auth';
 
 interface AxiosError {
-  response?: {
-    data: unknown;
-  };
+  response?: { data: unknown };
 }
 
 const Register = () => {
@@ -21,9 +19,7 @@ const Register = () => {
     e.preventDefault();
     setErrorMsg('');
     try {
-      const response = await API.post('/auth/register', { email, password, name, skills, causes });
-      console.log('User registered:', response.data.user);
-      // Redirect to the login page with a success state
+      await auth.register({ email, password, name, skills, causes });
       navigate('/login', { state: { registrationSuccess: true } });
     } catch (error: unknown) {
       const err = error as AxiosError;
@@ -40,8 +36,8 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <form 
-        onSubmit={handleSubmit} 
+      <form
+        onSubmit={handleSubmit}
         className="flex flex-col space-y-4 p-6 bg-white border rounded shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold text-center">Register</h2>
@@ -83,7 +79,10 @@ const Register = () => {
           value={causes}
           onChange={(e) => setCauses(e.target.value)}
         />
-        <button className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200" type="submit">
+        <button
+          className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
+          type="submit"
+        >
           Register
         </button>
       </form>
