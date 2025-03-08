@@ -14,6 +14,7 @@ const Register = () => {
   const [causes, setCauses] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const navigate = useNavigate();
+  const [touched, setTouched] = useState({ email: false, password: false });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,70 +24,84 @@ const Register = () => {
       navigate('/login', { state: { registrationSuccess: true } });
     } catch (error: unknown) {
       const err = error as AxiosError;
-      if (err.response) {
-        console.error('Registration error:', err.response.data);
-      } else if (error instanceof Error) {
-        console.error('Registration error:', error.message);
-      } else {
-        console.error('Registration error:', error);
-      }
+      console.error('Registration error:', err.response || error);
       setErrorMsg('Registration failed. Please ensure the email is not already in use.');
     }
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-50">
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col space-y-4 p-6 bg-white border rounded shadow-md w-full max-w-sm"
-      >
-        <h2 className="text-2xl font-bold text-center">Register</h2>
-        {errorMsg && <div className="text-red-500 text-center">{errorMsg}</div>}
-        <input
-          className="border p-2 rounded"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          className="border p-2 rounded"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          className="border p-2 rounded"
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          className="border p-2 rounded"
-          type="text"
-          placeholder="Skills (comma separated)"
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-        />
-        <input
-          className="border p-2 rounded"
-          type="text"
-          placeholder="Causes (comma separated)"
-          value={causes}
-          onChange={(e) => setCauses(e.target.value)}
-        />
-        <button
-          className="bg-green-500 text-white p-2 rounded hover:bg-green-600 transition duration-200"
-          type="submit"
-        >
-          Register
-        </button>
-      </form>
-    </div>
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <section className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+        {errorMsg && (
+          <div className="mb-4 p-3 bg-red-200 border border-red-400 text-red-800 rounded">
+            {errorMsg}
+          </div>
+        )}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
+            <input
+              id="email"
+              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300 ${touched.email && !email ? 'border-red-500' : ''}`}
+              type="email"
+              value={email}
+              onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
+            <input
+              id="password"
+              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300 ${touched.password && !password ? 'border-red-500' : ''}`}
+              type="password"
+              value={password}
+              onBlur={() => setTouched(prev => ({ ...prev, password: true }))}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1" htmlFor="name">Name</label>
+            <input
+              id="name"
+              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300"
+              type="text"
+              placeholder="Your full name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-1" htmlFor="skills">Skills</label>
+            <input
+              id="skills"
+              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300"
+              type="text"
+              placeholder="Comma separated skills"
+              value={skills}
+              onChange={(e) => setSkills(e.target.value)}
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 mb-1" htmlFor="causes">Causes</label>
+            <input
+              id="causes"
+              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300"
+              type="text"
+              placeholder="Comma separated causes"
+              value={causes}
+              onChange={(e) => setCauses(e.target.value)}
+            />
+          </div>
+          <button className="btn btn-secondary w-full" type="submit">
+            Register
+          </button>
+        </form>
+      </section>
+    </main>
   );
 };
 
