@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)]">
       <section className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         {registrationSuccess && (
