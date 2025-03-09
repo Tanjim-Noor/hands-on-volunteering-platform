@@ -14,7 +14,10 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { setIsAuthenticated } = useAuth();
+
   const registrationSuccess = location.state?.registrationSuccess;
+  const loginAlert = location.state?.alert; // Check for alert message passed via PrivateRoute
+
   const [touched, setTouched] = useState({ email: false, password: false });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -32,9 +35,14 @@ const Login = () => {
   };
 
   return (
-    <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)]">
+    <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)] bg-gray-100">
       <section className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        {loginAlert && (
+          <div className="mb-4 p-3 bg-yellow-200 border border-yellow-400 text-yellow-800 rounded flex justify-between items-center">
+            <span>{loginAlert}</span>
+          </div>
+        )}
         {registrationSuccess && (
           <div className="mb-4 p-3 bg-green-200 border border-green-400 text-green-800 rounded flex justify-between items-center">
             <span>Registration successful! Please login.</span>
@@ -54,26 +62,34 @@ const Login = () => {
         )}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
+            <label className="block text-gray-700 mb-1" htmlFor="email">
+              Email
+            </label>
             <input
               id="email"
-              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 ${touched.email && !email ? 'border-red-500' : ''}`}
               type="email"
               value={email}
               onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
               onChange={(e) => setEmail(e.target.value)}
+              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900 ${
+                touched.email && !email ? 'border-red-500' : ''
+              }`}
               required
             />
           </div>
           <div className="mb-6">
-            <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
+            <label className="block text-gray-700 mb-1" htmlFor="password">
+              Password
+            </label>
             <input
               id="password"
-              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 ${touched.password && !password ? 'border-red-500' : ''}`}
               type="password"
               value={password}
               onBlur={() => setTouched(prev => ({ ...prev, password: true }))}
               onChange={(e) => setPassword(e.target.value)}
+              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900 ${
+                touched.password && !password ? 'border-red-500' : ''
+              }`}
               required
             />
           </div>

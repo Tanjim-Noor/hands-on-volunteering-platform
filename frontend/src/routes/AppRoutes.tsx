@@ -47,7 +47,14 @@ const AppRoutes = () => {
               </PrivateRoute>
             }
           />
-          <Route path="community-requests/:id" element={<CommunityRequestDetail />} />
+          <Route
+            path="community-requests/:id"
+            element={
+              <PrivateRoute>
+                <CommunityRequestDetail />
+              </PrivateRoute>
+            }
+          />
         </Route>
       </Routes>
     </Router>

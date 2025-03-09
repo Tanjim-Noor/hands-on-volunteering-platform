@@ -82,3 +82,37 @@ export const createCommunityRequest = async (req: Request, res: Response): Promi
     res.status(500).json({ error: error.message });
   }
 };
+
+// NEW: Create Comment on a Community Request
+export const addComment = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const requestId = parseInt(req.params.id, 10);
+    if (isNaN(requestId)) {
+      res.status(400).json({ message: 'Invalid request ID' });
+      return;
+    }
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+    const { text } = req.body;
+    if (!text) {
+      res.status(400).json({ message: 'Comment text is required' });
+      return;
+    }
+    const comment = await prisma.comment.create({
+      data: {
+        text,
+        authorId: userId,
+        requestId,
+      },
+      include: {
+        author: { select: { id: true, name: true, email: true } }
+      }
+    });
+    res.status(201).json(comment);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};

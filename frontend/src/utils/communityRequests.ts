@@ -42,3 +42,9 @@ export const createCommunityRequest = async (data: {
   const response = await API.post<CommunityRequest>('/community-requests', data);
   return response.data;
 };
+
+// NEW: Create a comment for a community request
+export const createComment = async (requestId: number, text: string): Promise<Comment> => {
+  const response = await API.post<Comment>(`/community-requests/${requestId}/comments`, { text });
+  return response.data;
+};

@@ -30,7 +30,7 @@ const Register = () => {
   };
 
   return (
-    <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)]">
+    <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)] bg-gray-100">
       <section className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
         {errorMsg && (
@@ -43,57 +43,61 @@ const Register = () => {
             <label className="block text-gray-700 mb-1" htmlFor="email">Email</label>
             <input
               id="email"
-              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300 ${touched.email && !email ? 'border-red-500' : ''}`}
               type="email"
               value={email}
               onBlur={() => setTouched(prev => ({ ...prev, email: true }))}
               onChange={(e) => setEmail(e.target.value)}
               required
+              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900 ${
+                touched.email && !email ? 'border-red-500' : ''
+              }`}
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-1" htmlFor="password">Password</label>
             <input
               id="password"
-              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300 ${touched.password && !password ? 'border-red-500' : ''}`}
               type="password"
               value={password}
               onBlur={() => setTouched(prev => ({ ...prev, password: true }))}
               onChange={(e) => setPassword(e.target.value)}
               required
+              className={`border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900 ${
+                touched.password && !password ? 'border-red-500' : ''
+              }`}
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-1" htmlFor="name">Name</label>
             <input
               id="name"
-              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300"
               type="text"
               placeholder="Your full name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900"
             />
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 mb-1" htmlFor="skills">Skills</label>
             <input
               id="skills"
-              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300"
               type="text"
               placeholder="Comma separated skills"
               value={skills}
               onChange={(e) => setSkills(e.target.value)}
+              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900"
             />
           </div>
           <div className="mb-6">
             <label className="block text-gray-700 mb-1" htmlFor="causes">Causes</label>
             <input
               id="causes"
-              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-green-300"
               type="text"
               placeholder="Comma separated causes"
               value={causes}
               onChange={(e) => setCauses(e.target.value)}
+              className="border p-3 rounded w-full focus:outline-none focus:ring-2 focus:ring-blue-300 text-gray-900"
             />
           </div>
           <button className="btn btn-secondary w-full" type="submit">
