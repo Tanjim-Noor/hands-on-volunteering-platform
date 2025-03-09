@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gray-800 text-white">
+    <nav className="bg-gray-800 text-white w-full">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="text-xl font-bold">
           HandsOn
@@ -40,6 +40,12 @@ const Navbar = () => {
                 className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
               >
                 Dashboard
+              </NavLink>
+              <NavLink
+                to="/create-event"
+                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+              >
+                Create Event
               </NavLink>
               <button onClick={handleLogout} className="hover:text-blue-300">
                 Logout
@@ -104,6 +110,13 @@ const Navbar = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Dashboard
+              </NavLink>
+              <NavLink
+                to="/create-event"
+                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Create Event
               </NavLink>
               <button onClick={handleLogout} className="block hover:text-blue-300 w-full text-left">
                 Logout

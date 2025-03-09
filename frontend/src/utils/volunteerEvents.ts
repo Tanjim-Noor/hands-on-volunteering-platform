@@ -43,3 +43,21 @@ export const joinVolunteerEvent = async (eventId: number): Promise<VolunteerEven
   const response = await API.post<VolunteerEvent>(`/events/${eventId}/join`);
   return response.data;
 };
+
+//Create Volunteer Event API call
+export const createVolunteerEvent = async (eventData: {
+  title: string;
+  description?: string;
+  date: string;
+  location: string;
+  category: string;
+}): Promise<VolunteerEvent> => {
+  const response = await API.post<VolunteerEvent>('/events', eventData);
+  return response.data;
+};
+
+// Get details for a single volunteer event.
+export const getVolunteerEventDetail = async (eventId: number): Promise<VolunteerEvent> => {
+  const response = await API.get<VolunteerEvent>(`/events/${eventId}`);
+  return response.data;
+};

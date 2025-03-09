@@ -25,12 +25,18 @@ const Dashboard = () => {
     fetchUser();
   }, []);
 
+  // Handler to view detailed attendee info for a created event.
+  const handleViewAttendees = (eventId: number) => {
+    // Navigate to a details page (to be implemented) to show attendee information.
+    navigate(`/event-details/${eventId}`);
+  };
+
   return (
     <main className="min-h-screen bg-gray-100 py-10">
       <div className="container mx-auto px-4">
         {showSuccess && (
           <div className="mb-4 p-4 bg-green-200 border border-green-400 text-green-800 rounded flex justify-between items-center">
-            <span>Successfully logged in!</span>
+            <span className="text-gray-800">Successfully logged in!</span>
             <button
               onClick={() => setShowSuccess(false)}
               aria-label="Dismiss success message"
@@ -41,75 +47,87 @@ const Dashboard = () => {
           </div>
         )}
 
-        <h1 className="text-4xl font-bold mb-8">Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-8 text-gray-800">Dashboard</h1>
 
-        {/* Personal Information Section */}
         {loadingUser ? (
-          <p>Loading your profile...</p>
+          <p className="text-gray-800">Loading your profile...</p>
         ) : userError ? (
           <p className="text-red-500">{userError}</p>
         ) : user ? (
-          <div className="mb-8 p-4 border rounded shadow-md bg-white">
-            <h2 className="text-2xl font-semibold mb-4">Personal Information</h2>
-            <p>
-              <span className="font-bold">Name:</span> {user.name || 'N/A'}
-            </p>
-            <p>
-              <span className="font-bold">Email:</span> {user.email}
-            </p>
-            <p>
-              <span className="font-bold">Skills:</span> {user.skills || 'N/A'}
-            </p>
-            <p>
-              <span className="font-bold">Causes:</span> {user.causes || 'N/A'}
-            </p>
-          </div>
-        ) : null}
-
-        <section className="grid md:grid-cols-2 gap-8">
-          {/* Your Events Card */}
-          <div className="card">
-            <h2 className="text-2xl font-semibold mb-4">Your Events</h2>
-            {loadingUser ? (
-              <p>Loading events...</p>
-            ) : user && user.attendedEvents && user.attendedEvents.length > 0 ? (
-              <ul>
-                {user.attendedEvents.map((event) => (
-                  <li key={event.id} className="mb-2 border p-4 rounded">
-                    <h3 className="text-xl font-bold mb-1">{event.title}</h3>
-                    <p>{event.description || 'No description'}</p>
-                    <p className="text-sm text-gray-600">
-                      Date: {new Date(event.date).toLocaleString()}
-                    </p>
-                    <p className="text-sm text-gray-600">Location: {event.location}</p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <>
-                <p className="mb-4">You have not joined any events yet.</p>
-                <button 
-                  className="btn btn-secondary" 
-                  onClick={() => navigate('/events')}
-                >
-                  Find Events
-                </button>
-              </>
-            )}
-          </div>
-
-          {/* Impact Summary Card */}
-          <div className="card">
-            <h2 className="text-2xl font-semibold mb-4">Impact Summary</h2>
-            <p className="mb-4">You haven't logged any volunteer hours yet.</p>
-            <button className="btn btn-secondary">
-              Log Hours
-            </button>
-            <div className="mt-4 text-6xl">
-              <span role="img" aria-label="empty state">📭</span>
+          <>
+            {/* Personal Information Section */}
+            <div className="mb-8 p-4 border rounded shadow-md bg-white text-gray-800">
+              <h2 className="text-2xl font-semibold mb-4">Personal Information</h2>
+              <p>
+                <span className="font-bold">Name:</span> {user.name || 'N/A'}
+              </p>
+              <p>
+                <span className="font-bold">Email:</span> {user.email}
+              </p>
+              <p>
+                <span className="font-bold">Skills:</span> {user.skills || 'N/A'}
+              </p>
+              <p>
+                <span className="font-bold">Causes:</span> {user.causes || 'N/A'}
+              </p>
             </div>
-          </div>
-        </section>
+
+            {/* Section - Your Created Events */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">Your Created Events</h2>
+              {user.volunteerEvents && user.volunteerEvents.length > 0 ? (
+                <ul className="space-y-4">
+                  {user.volunteerEvents.map((event) => (
+                    <li key={event.id} className="border p-4 rounded bg-white text-gray-800">
+                      <h3 className="text-xl font-bold mb-1">{event.title}</h3>
+                      <p>{event.description || 'No description provided.'}</p>
+                      <p className="text-sm text-gray-600 mb-2">
+                        Date: {new Date(event.date).toLocaleString()}
+                      </p>
+                      <p className="text-sm text-gray-600 mb-2">
+                        Location: {event.location} | Category: {event.category}
+                      </p>
+                      <p className="text-sm text-gray-600 mb-4">
+                        Attendees: {event.attendees ? event.attendees.length : 0}
+                      </p>
+                      <button
+                        onClick={() => handleViewAttendees(event.id)}
+                        className="btn btn-secondary"
+                      >
+                        View Attendees
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-800">You have not created any events yet.</p>
+              )}
+            </div>
+
+            {/* Section - Events Attending */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-semibold mb-4 text-gray-800">Events Attending</h2>
+              {user.attendedEvents && user.attendedEvents.length > 0 ? (
+                <ul className="space-y-4">
+                  {user.attendedEvents.map((event) => (
+                    <li key={event.id} className="border p-4 rounded bg-white text-gray-800">
+                      <h3 className="text-xl font-bold mb-1">{event.title}</h3>
+                      <p>{event.description || 'No description provided.'}</p>
+                      <p className="text-sm text-gray-600">
+                        Date: {new Date(event.date).toLocaleString()}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Location: {event.location} | Category: {event.category}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-gray-800">You have not joined any events yet.</p>
+              )}
+            </div>
+          </>
+        ) : null}
       </div>
     </main>
   );

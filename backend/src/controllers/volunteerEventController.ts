@@ -86,3 +86,27 @@ export const joinEvent = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ error: "An unexpected error occurred while joining the event." });
   }
 };
+
+export const getEventDetails = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const eventId = parseInt(req.params.id, 10);
+    if (isNaN(eventId)) {
+      res.status(400).json({ message: "Invalid event ID" });
+      return;
+    }
+    const event = await prisma.volunteerEvent.findUnique({
+      where: { id: eventId },
+      include: {
+        createdBy: { select: { id: true, name: true, email: true } },
+        attendees: true
+      }
+    });
+    if (!event) {
+      res.status(404).json({ message: "Event not found" });
+      return;
+    }
+    res.json(event);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};

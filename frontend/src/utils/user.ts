@@ -21,6 +21,19 @@ export interface User {
       email: string;
     };
   }>;
+  volunteerEvents: Array<{
+    id: number;
+    title: string;
+    description: string | null;
+    date: string;
+    location: string;
+    category: string;
+    attendees: Array<{
+      id: number;
+      name: string | null;
+      email: string;
+    }>;
+  }>;
 }
 
 export const getCurrentUser = async (): Promise<User> => {

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getVolunteerEvents, joinVolunteerEvent, VolunteerEvent } from '../utils/volunteerEvents';
+import { getCurrentUser } from '../utils/user';
 
 const Events = () => {
   const [events, setEvents] = useState<VolunteerEvent[]>([]);
@@ -12,6 +13,7 @@ const Events = () => {
     startDate: '',
     endDate: ''
   });
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
   const fetchEvents = async () => {
     setLoading(true);
@@ -26,9 +28,20 @@ const Events = () => {
     }
   };
 
+  const fetchCurrentUser = async () => {
+    try {
+      const user = await getCurrentUser();
+      setCurrentUserId(user.id);
+    } catch (err) {
+      console.error("Failed to fetch current user", err);
+    }
+  };
+
   useEffect(() => {
     fetchEvents();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (localStorage.getItem('token')) {
+      fetchCurrentUser();
+    }
   }, []);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -43,7 +56,6 @@ const Events = () => {
     try {
       await joinVolunteerEvent(eventId);
       alert('You have successfully joined the event!');
-      // Refresh events to show updated attendee lists if needed.
       fetchEvents();
     } catch (joinError) {
       console.error("Error joining event:", joinError);
@@ -95,28 +107,40 @@ const Events = () => {
         {error && <p className="text-red-500">{error}</p>}
 
         <div className="grid md:grid-cols-2 gap-6">
-          {events.map((event) => (
-            <div key={event.id} className="card">
-              <h2 className="text-2xl font-semibold mb-2">{event.title}</h2>
-              <p className="mb-2">{event.description}</p>
-              <p className="text-sm text-gray-600">
-                Date: {new Date(event.date).toLocaleString()}
-              </p>
-              <p className="text-sm text-gray-600">Location: {event.location}</p>
-              <p className="text-sm text-gray-600">Category: {event.category}</p>
-              <div className="mt-4">
-                {localStorage.getItem('token') ? (
-                  <button className="btn btn-primary" onClick={() => handleJoinEvent(event.id)}>
-                    Join Event
-                  </button>
-                ) : (
-                  <Link to="/login" className="btn btn-secondary">
-                    Login to Join
-                  </Link>
-                )}
+          {events.map((event) => {
+            const joined = currentUserId !== null && event.attendees.some(attendee => attendee.id === currentUserId);
+            return (
+              <div key={event.id} className="card">
+                <h2 className="text-2xl font-semibold mb-2">{event.title}</h2>
+                <p className="mb-2">{event.description}</p>
+                <p className="text-sm text-gray-600">
+                  Date: {new Date(event.date).toLocaleString()}
+                </p>
+                <p className="text-sm text-gray-600">Location: {event.location}</p>
+                <p className="text-sm text-gray-600">Category: {event.category}</p>
+                <div className="mt-4">
+                  {localStorage.getItem('token') ? (
+                    joined ? (
+                      <button
+                        className="px-6 py-3 font-semibold rounded bg-gradient-to-r from-gray-500 to-gray-700 text-white opacity-75 cursor-not-allowed"
+                        disabled
+                      >
+                        Joined
+                      </button>
+                    ) : (
+                      <button className="btn btn-primary" onClick={() => handleJoinEvent(event.id)}>
+                        Join Event
+                      </button>
+                    )
+                  ) : (
+                    <Link to="/login" className="btn btn-secondary">
+                      Login to Join
+                    </Link>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </main>

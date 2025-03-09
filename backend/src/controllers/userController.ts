@@ -26,6 +26,11 @@ export const getCurrentUser: RequestHandler = async (req, res) => {
           include: {
             createdBy: { select: { id: true, name: true, email: true } }
           }
+        },
+        volunteerEvents: {
+          include: {
+            attendees: true
+          }
         }
       }
     });
