@@ -33,6 +33,12 @@ const Navbar = () => {
           >
             Events
           </NavLink>
+          <NavLink
+            to="/community-requests"
+            className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+          >
+            Community Help
+          </NavLink>
           {isAuthenticated ? (
             <>
               <NavLink
@@ -69,7 +75,7 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Hamburger Menu */}
+        {/* Mobile Menu */}
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             <svg
@@ -101,6 +107,13 @@ const Navbar = () => {
             onClick={() => setIsMenuOpen(false)}
           >
             Events
+          </NavLink>
+          <NavLink
+            to="/community-requests"
+            className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Community Help
           </NavLink>
           {isAuthenticated ? (
             <>

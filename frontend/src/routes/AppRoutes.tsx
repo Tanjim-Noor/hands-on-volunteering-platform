@@ -6,8 +6,11 @@ import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import Events from '../pages/Events';
 import CreateEvent from '../pages/CreateEvent';
-import PrivateRoute from '../components/PrivateRoute';
 import EventDetails from '../pages/EventDetails';
+import CommunityHelpRequests from '../pages/CommunityHelpRequests';
+import CreateCommunityRequest from '../pages/CreateCommunityRequest';
+import CommunityRequestDetail from '../pages/CommunityRequestDetail';
+import PrivateRoute from '../components/PrivateRoute';
 
 const AppRoutes = () => {
   return (
@@ -18,23 +21,33 @@ const AppRoutes = () => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="events" element={<Events />} />
-          <Route 
-            path="dashboard" 
+          <Route
+            path="dashboard"
             element={
               <PrivateRoute>
                 <Dashboard />
               </PrivateRoute>
-            } 
+            }
           />
-          <Route 
-            path="create-event" 
+          <Route
+            path="create-event"
             element={
               <PrivateRoute>
                 <CreateEvent />
               </PrivateRoute>
-            } 
+            }
           />
           <Route path="event-details/:id" element={<EventDetails />} />
+          <Route path="community-requests" element={<CommunityHelpRequests />} />
+          <Route
+            path="community-requests/create"
+            element={
+              <PrivateRoute>
+                <CreateCommunityRequest />
+              </PrivateRoute>
+            }
+          />
+          <Route path="community-requests/:id" element={<CommunityRequestDetail />} />
         </Route>
       </Routes>
     </Router>

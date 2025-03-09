@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
 import authRoutes from './routes/authRoutes';
 import volunteerEventRoutes from './routes/volunteerEventRoutes';
+import communityRequestRoutes from './routes/communityRequestRoutes';
 
 dotenv.config();
 
@@ -29,6 +30,9 @@ app.use('/auth', authRoutes);
 
 // Volunteer Event Route
 app.use('/events', volunteerEventRoutes);
+
+// Community Help Requests Route
+app.use('/community-requests', communityRequestRoutes);
 
 // Start the server
 app.listen(PORT, () => console.log(`Server is running on http://localhost:${PORT}`));
