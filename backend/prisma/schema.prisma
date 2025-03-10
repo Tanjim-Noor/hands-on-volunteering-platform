@@ -67,13 +67,22 @@ model Comment {
 }
 
 model Team {
-  id         Int             @id @default(autoincrement())
-  name       String
-  isPrivate  Boolean         @default(false)
-  members    User[]          @relation("UserTeams")
-  createdAt  DateTime        @default(now())
-  // Volunteer events linked to this team
-  events     VolunteerEvent[]  @relation("TeamEvents")
+  id          Int            @id @default(autoincrement())
+  name        String
+  description String?        // Defines the team's objective
+  isPrivate   Boolean        @default(false)
+  members     User[]         @relation("UserTeams")
+  createdAt   DateTime       @default(now())
+  events      VolunteerEvent[]  @relation("TeamEvents")
+  invites     TeamInvite[]   // List of invited emails for private teams
+}
+
+model TeamInvite {
+  id        Int      @id @default(autoincrement())
+  email     String   // Email address of the invitee
+  team      Team     @relation(fields: [teamId], references: [id])
+  teamId    Int
+  createdAt DateTime @default(now())
 }
 
 model ImpactLog {
