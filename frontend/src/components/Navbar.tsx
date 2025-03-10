@@ -23,33 +23,52 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-6">
           <NavLink
             to="/"
-            className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+            className={({ isActive }) =>
+              isActive ? "text-blue-400" : "hover:text-blue-300"
+            }
           >
             Home
           </NavLink>
           <NavLink
             to="/events"
-            className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+            className={({ isActive }) =>
+              isActive ? "text-blue-400" : "hover:text-blue-300"
+            }
           >
             Events
           </NavLink>
           <NavLink
             to="/community-requests"
-            className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+            className={({ isActive }) =>
+              isActive ? "text-blue-400" : "hover:text-blue-300"
+            }
           >
             Community Help
+          </NavLink>
+          {/* Teams link is always visible */}
+          <NavLink
+            to="/teams"
+            className={({ isActive }) =>
+              isActive ? "text-blue-400 font-bold" : "hover:text-blue-300 font-bold"
+            }
+          >
+            Teams
           </NavLink>
           {isAuthenticated ? (
             <>
               <NavLink
                 to="/dashboard"
-                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "text-blue-400" : "hover:text-blue-300"
+                }
               >
                 Dashboard
               </NavLink>
               <NavLink
                 to="/create-event"
-                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "text-blue-400" : "hover:text-blue-300"
+                }
               >
                 Create Event
               </NavLink>
@@ -61,13 +80,17 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/login"
-                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "text-blue-400" : "hover:text-blue-300"
+                }
               >
                 Login
               </NavLink>
               <NavLink
                 to="/register"
-                className={({ isActive }) => (isActive ? 'text-blue-400' : 'hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "text-blue-400" : "hover:text-blue-300"
+                }
               >
                 Register
               </NavLink>
@@ -85,7 +108,12 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
             </svg>
           </button>
         </div>
@@ -96,42 +124,65 @@ const Navbar = () => {
         <div className="md:hidden bg-gray-700 px-2 pt-2 pb-4 space-y-1">
           <NavLink
             to="/"
-            className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+            className={({ isActive }) =>
+              isActive ? "block text-blue-400" : "block hover:text-blue-300"
+            }
             onClick={() => setIsMenuOpen(false)}
           >
             Home
           </NavLink>
           <NavLink
             to="/events"
-            className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+            className={({ isActive }) =>
+              isActive ? "block text-blue-400" : "block hover:text-blue-300"
+            }
             onClick={() => setIsMenuOpen(false)}
           >
             Events
           </NavLink>
           <NavLink
             to="/community-requests"
-            className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+            className={({ isActive }) =>
+              isActive ? "block text-blue-400" : "block hover:text-blue-300"
+            }
             onClick={() => setIsMenuOpen(false)}
           >
             Community Help
+          </NavLink>
+          {/* Always show Teams link */}
+          <NavLink
+            to="/teams"
+            className={({ isActive }) =>
+              isActive ? "block text-blue-400 font-bold" : "block hover:text-blue-300 font-bold"
+            }
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Teams
           </NavLink>
           {isAuthenticated ? (
             <>
               <NavLink
                 to="/dashboard"
-                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "block text-blue-400" : "block hover:text-blue-300"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Dashboard
               </NavLink>
               <NavLink
                 to="/create-event"
-                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "block text-blue-400" : "block hover:text-blue-300"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Create Event
               </NavLink>
-              <button onClick={handleLogout} className="block hover:text-blue-300 w-full text-left">
+              <button
+                onClick={handleLogout}
+                className="block hover:text-blue-300 w-full text-left"
+              >
                 Logout
               </button>
             </>
@@ -139,14 +190,18 @@ const Navbar = () => {
             <>
               <NavLink
                 to="/login"
-                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "block text-blue-400" : "block hover:text-blue-300"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Login
               </NavLink>
               <NavLink
                 to="/register"
-                className={({ isActive }) => (isActive ? 'block text-blue-400' : 'block hover:text-blue-300')}
+                className={({ isActive }) =>
+                  isActive ? "block text-blue-400" : "block hover:text-blue-300"
+                }
                 onClick={() => setIsMenuOpen(false)}
               >
                 Register
