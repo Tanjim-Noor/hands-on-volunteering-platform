@@ -32,7 +32,7 @@ const Register = () => {
   return (
     <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)] bg-gray-100">
       <section className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Register</h2>
         {errorMsg && (
           <div className="mb-4 p-3 bg-red-200 border border-red-400 text-red-800 rounded">
             {errorMsg}

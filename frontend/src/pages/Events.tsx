@@ -1,18 +1,21 @@
+// frontend/src/pages/Events.tsx
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getVolunteerEvents, joinVolunteerEvent, VolunteerEvent } from '../utils/volunteerEvents';
 import { getCurrentUser } from '../utils/user';
 
 const Events = () => {
-  const [events, setEvents] = useState<VolunteerEvent[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  // Updated filters state: category, location, and date
   const [filters, setFilters] = useState({
     category: '',
     location: '',
-    startDate: '',
-    endDate: ''
+    date: ''
   });
+  
+  const [events, setEvents] = useState<VolunteerEvent[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
 
   const fetchEvents = async () => {
@@ -66,7 +69,7 @@ const Events = () => {
   return (
     <main className="min-h-screen bg-gray-50 py-10">
       <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold mb-6">Volunteer Events</h1>
+        <h1 className="text-4xl font-bold mb-6 text-gray-800">Volunteer Events</h1>
 
         {/* Filter Controls */}
         <div className="mb-4 flex flex-wrap gap-4">
@@ -76,7 +79,7 @@ const Events = () => {
             placeholder="Category"
             value={filters.category}
             onChange={handleFilterChange}
-            className="p-2 border rounded"
+            className="p-2 border rounded text-gray-800 placeholder-gray-600"
           />
           <input
             type="text"
@@ -84,23 +87,22 @@ const Events = () => {
             placeholder="Location"
             value={filters.location}
             onChange={handleFilterChange}
-            className="p-2 border rounded"
+            className="p-2 border rounded text-gray-800 placeholder-gray-600"
           />
           <input
             type="date"
-            name="startDate"
-            value={filters.startDate}
+            name="date"
+            value={filters.date}
             onChange={handleFilterChange}
-            className="p-2 border rounded"
+            className="p-2 border rounded text-gray-800"
           />
-          <input
-            type="date"
-            name="endDate"
-            value={filters.endDate}
-            onChange={handleFilterChange}
-            className="p-2 border rounded"
-          />
-          <button className="btn btn-primary" onClick={applyFilters}>Apply Filters</button>
+          <button 
+            type="button"
+            className="btn btn-primary"
+            onClick={applyFilters}
+          >
+            Apply Filters
+          </button>
         </div>
 
         {loading && <p>Loading events...</p>}
@@ -110,9 +112,9 @@ const Events = () => {
           {events.map((event) => {
             const joined = currentUserId !== null && event.attendees.some(attendee => attendee.id === currentUserId);
             return (
-              <div key={event.id} className="card">
-                <h2 className="text-2xl font-semibold mb-2">{event.title}</h2>
-                <p className="mb-2">{event.description}</p>
+              <div key={event.id} className="bg-white p-6 rounded-lg shadow">
+                <h2 className="text-2xl font-semibold mb-2 text-gray-800">{event.title}</h2>
+                <p className="mb-2 text-gray-700">{event.description}</p>
                 <p className="text-sm text-gray-600">
                   Date: {new Date(event.date).toLocaleString()}
                 </p>

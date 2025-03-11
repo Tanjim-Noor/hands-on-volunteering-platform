@@ -37,7 +37,7 @@ const Login = () => {
   return (
     <main className="flex items-center justify-center py-12 px-4 min-h-[calc(100vh-64px)] bg-gray-100">
       <section className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
-        <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Login</h2>
         {loginAlert && (
           <div className="mb-4 p-3 bg-yellow-200 border border-yellow-400 text-yellow-800 rounded flex justify-between items-center">
             <span>{loginAlert}</span>

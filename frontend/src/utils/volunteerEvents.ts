@@ -1,3 +1,5 @@
+// frontend/src/utils/volunteerEvents.ts
+
 import API from './api';
 
 export interface VolunteerEvent {
@@ -22,18 +24,18 @@ export interface VolunteerEvent {
 export const getVolunteerEvents = async (filters?: {
   category?: string;
   location?: string;
-  startDate?: string;
-  endDate?: string;
+  date?: string;
 }): Promise<VolunteerEvent[]> => {
   let query = '';
   if (filters) {
     const queryParams = new URLSearchParams();
+    // Only add non-empty filters
     Object.entries(filters).forEach(([key, value]) => {
-      if (value) {
+      if (value && value.trim()) {
         queryParams.append(key, value);
       }
     });
-    query = `?${queryParams.toString()}`;
+    query = queryParams.toString() ? `?${queryParams.toString()}` : '';
   }
   const response = await API.get<VolunteerEvent[]>(`/events${query}`);
   return response.data;
@@ -44,7 +46,6 @@ export const joinVolunteerEvent = async (eventId: number): Promise<VolunteerEven
   return response.data;
 };
 
-//Create Volunteer Event API call
 export const createVolunteerEvent = async (eventData: {
   title: string;
   description?: string;
@@ -56,7 +57,6 @@ export const createVolunteerEvent = async (eventData: {
   return response.data;
 };
 
-// Get details for a single volunteer event.
 export const getVolunteerEventDetail = async (eventId: number): Promise<VolunteerEvent> => {
   const response = await API.get<VolunteerEvent>(`/events/${eventId}`);
   return response.data;

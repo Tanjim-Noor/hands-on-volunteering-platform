@@ -6,7 +6,27 @@ const prisma = new PrismaClient();
 // GET /events - List all volunteer events (public)
 export const listEvents = async (req: Request, res: Response): Promise<void> => {
   try {
+    // Retrieve the "date" query parameter (if present)
+    const { date } = req.query;
+    
+    // Build filter object
+    const filters: any = {};
+    if (date) {
+      const selectedDate = new Date(String(date));
+      const startOfDay = new Date(selectedDate);
+      startOfDay.setHours(0, 0, 0, 0);
+      const endOfDay = new Date(selectedDate);
+      endOfDay.setHours(23, 59, 59, 999);
+      
+      filters.date = {
+        gte: startOfDay,
+        lte: endOfDay,
+      };
+    }
+
+    // Fetch events based on filter (if any)
     const events = await prisma.volunteerEvent.findMany({
+      where: filters,
       include: {
         createdBy: { select: { id: true, name: true, email: true } },
         attendees: { select: { id: true, name: true, email: true } },
