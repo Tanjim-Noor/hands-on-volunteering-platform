@@ -47,7 +47,7 @@ The database is structured around several key models:
 
 ## Database Schema Diagram
    
-![Database Schema](backend/prisma/schema%20diagram.png)
+![Database Schema](backend/prisma/schema20diagram.png)
 
 ## Setup Instructions
 
@@ -59,8 +59,8 @@ The database is structured around several key models:
 ### Using Docker Compose (Optional)
 1. Ensure Docker and Docker Compose are installed on your machine.
 2. In the root directory of the project, create or review the `docker-compose.yml` file. An example configuration:
-   ```yaml
-   services:
+```yaml
+services:
   postgres:
     image: postgres:latest
     environment:
@@ -71,52 +71,55 @@ The database is structured around several key models:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-    volumes:
-    postgres-data:
-   ```
+
+volumes:
+  postgres-data:
+```
 3. To pull postgres image, build and run the containers using Docker Compose, execute:
-   ```
-    docker pull postgres
-    docker-compose up --build
-   ```
-   This will start the PostgreSQL database, the backend server, and the frontend development server.
+```bash
+docker pull postgres
+docker-compose up --build
+```
+This will start the PostgreSQL database, the backend server, and the frontend development server.
 
 ### Backend Setup
 1. Navigate to the `backend` folder:
-   ```
-   cd backend
-   ```
+```bash
+cd backend
+```
 2. Install dependencies:
-   ```
-   npm install
-   ```
+```bash
+npm install
+```
 3. Create a `.env` file based on the sample provided and configure the following environment variables:
-   - `DATABASE_URL=postgresql://user:password@localhost:5432/hands_on_db`
-   - `JWT_SECRET=your_jwt_secret`
-   - `PORT=5000`
+```
+DATABASE_URL=postgresql://user:password@localhost:5432/hands_on_db
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
 4. Run database migrations and seed the database using Prisma:
-   ```
-   npx prisma migrate dev
-   npx prisma db seed
-   ```
+```bash
+npx prisma migrate dev
+npx prisma db seed
+```
 5. Start the backend server:
-   ```
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
 ### Frontend Setup (Without Docker)
 1. Navigate to the `frontend` folder:
-   ```
-   cd frontend
-   ```
+```bash
+cd frontend
+```
 2. Install dependencies:
-   ```
-   npm install
-   ```
+```bash
+npm install
+```
 3. Start the frontend development server:
-   ```
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
 ## API Documentation
 Below is a summary of key API endpoints:
@@ -149,8 +152,6 @@ Below is a summary of key API endpoints:
 - `POST /teams/:id/events` - Create a team event (protected route).
 - `GET /teams/my` - Retrieve teams the user is a member of (protected route).
 - `GET /teams/available` - Retrieve available teams for joining (protected route).
-
-*For more detailed API usage, including request and response examples, please refer to the Swagger/OpenAPI documentation (still in development).*
 
 ## Running the Project
 ### Local Development
