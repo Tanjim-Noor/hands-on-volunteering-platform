@@ -43,7 +43,11 @@ The database is structured around several key models:
 - **TeamInvite:** Manages invitation emails for private team membership.
 - **ImpactLog:** Logs volunteer hours and the verification status (auto or peer).
 
-*For a visual representation of the schema, please refer to the [Database Schema Diagram](#) *(diagram link still in development)*.*
+*For a visual representation of the schema, [Database Schema Diagram](#database-schema-diagram)*
+
+## Database Schema Diagram
+   
+![Database Schema](backend/prisma/schema%20diagram.png)
 
 ## Setup Instructions
 
