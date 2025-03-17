@@ -44,3 +44,4 @@ Thumbs.db
 
 # Other local configuration files
 *.local
+.qodo

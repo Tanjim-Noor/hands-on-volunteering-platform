@@ -28,31 +28,39 @@ model User {
 }
 
 model VolunteerEvent {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description String?
+  id               Int                @id @default(autoincrement())
+  title            String
+  description      String?
   // "date" now captures both date and time
-  date        DateTime
-  location    String
-  category    String
+  date             DateTime
+  location         String
+  category         String
   // The user who created this event
-  createdBy   User      @relation(fields: [createdById], references: [id])
-  createdById Int
+  createdBy        User               @relation(fields: [createdById], references: [id])
+  createdById      Int
   // Users who have attended this event
-  attendees   User[]    @relation("EventAttendees")
+  attendees        User[]             @relation("EventAttendees")
   // Optional relation to the team organizing the event
-  teamId      Int?
-  team        Team?     @relation("TeamEvents", fields: [teamId], references: [id])
+  teamId           Int?
+  team             Team?              @relation("TeamEvents", fields: [teamId], references: [id])
+  
+  // Impact logs when this event is not a team event
+  impactLogs       ImpactLog[]        @relation("VolunteerEventLogs")
+  // Impact logs when this event is used as a team event
+  teamImpactLogs   ImpactLog[]        @relation("TeamEventLogs")
 }
 
 model CommunityRequest {
-  id          Int       @id @default(autoincrement())
-  title       String
-  description String?
-  urgency     String    // "low", "medium", "urgent"
-  createdBy   User      @relation(fields: [createdById], references: [id])
-  createdById Int
-  comments    Comment[]
+  id               Int                @id @default(autoincrement())
+  title            String
+  description      String?
+  urgency          String             // "low", "medium", "urgent"
+  createdBy        User               @relation(fields: [createdById], references: [id])
+  createdById      Int
+  comments         Comment[]
+  
+  // Impact logs for community requests
+  impactLogs       ImpactLog[]        @relation("CommunityRequestLogs")
 }
 
 model Comment {
@@ -67,14 +75,14 @@ model Comment {
 }
 
 model Team {
-  id          Int            @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   name        String
-  description String?        // Defines the team's objective
-  isPrivate   Boolean        @default(false)
-  members     User[]         @relation("UserTeams")
-  createdAt   DateTime       @default(now())
-  events      VolunteerEvent[]  @relation("TeamEvents")
-  invites     TeamInvite[]   // List of invited emails for private teams
+  description String?            // Defines the team's objective
+  isPrivate   Boolean            @default(false)
+  members     User[]             @relation("UserTeams")
+  createdAt   DateTime           @default(now())
+  events      VolunteerEvent[]   @relation("TeamEvents")
+  invites     TeamInvite[]       // List of invited emails for private teams
 }
 
 model TeamInvite {
@@ -86,10 +94,23 @@ model TeamInvite {
 }
 
 model ImpactLog {
-  id             Int      @id @default(autoincrement())
-  volunteerHours Int
-  verified       Boolean  @default(false)
-  userId         Int
-  user           User     @relation(fields: [userId], references: [id])
-  createdAt      DateTime @default(now())
+  id                   Int               @id @default(autoincrement())
+  volunteerHours       Int
+  verified             Boolean           @default(false)
+  
+  // Relationship to the user that logs impact
+  userId               Int
+  user                 User              @relation(fields: [userId], references: [id])
+  
+  // Optional relationships: exactly one should ideally be set.
+  volunteerEventId     Int?              
+  volunteerEvent       VolunteerEvent?   @relation("VolunteerEventLogs", fields: [volunteerEventId], references: [id])
+  
+  communityRequestId   Int?
+  communityRequest     CommunityRequest? @relation("CommunityRequestLogs", fields: [communityRequestId], references: [id])
+  
+  teamEventId          Int?
+  teamEvent            VolunteerEvent?   @relation("TeamEventLogs", fields: [teamEventId], references: [id])
+  
+  createdAt            DateTime          @default(now())
 }
