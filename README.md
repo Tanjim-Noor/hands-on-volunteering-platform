@@ -47,7 +47,7 @@ The database is structured around several key models:
 
 ## Database Schema Diagram
    
-![Database Schema](backend/prisma/schema-diagram.png)
+![Database Schema](backend/prisma/schema-diagram_2.png)
 
 ## Setup Instructions
 
